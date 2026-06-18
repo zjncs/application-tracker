@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>申请项目进度看板</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <img class="hero__image" src="./assets/application-hero.png" alt="" />
+      <div class="hero__shade"></div>
+      <div class="hero__content">
+        <p class="eyebrow">Graduate Research Applications</p>
+        <h1>申请项目进度看板</h1>
+        <p class="hero__text">集中管理已申请、待申请、优先级、截止状态和下一步动作。</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="筛选和统计">
+        <div class="stats" id="stats"></div>
+        <div class="controls">
+          <label class="search">
+            <span>搜索</span>
+            <input id="searchInput" type="search" placeholder="项目 / 地区 / 备注" autocomplete="off" />
+          </label>
+          <label class="select">
+            <span>状态</span>
+            <select id="statusFilter">
+              <option value="all">全部</option>
+              <option value="applied">已申请</option>
+              <option value="todo">待申请</option>
+              <option value="in-progress">准备中</option>
+              <option value="submitted">已提交</option>
+            </select>
+          </label>
+          <label class="select">
+            <span>优先级</span>
+            <select id="priorityFilter">
+              <option value="all">全部</option>
+              <option value="high">高</option>
+              <option value="medium">中</option>
+              <option value="low">低</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="board" aria-label="申请项目列表">
+        <div>
+          <div class="section-title">
+            <h2>已申请项目</h2>
+            <span id="appliedCount">0</span>
+          </div>
+          <div class="list" id="appliedList"></div>
+        </div>
+        <div>
+          <div class="section-title">
+            <h2>还可以申请</h2>
+            <span id="todoCount">0</span>
+          </div>
+          <div class="list" id="todoList"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="projectTemplate">
+      <article class="project">
+        <div class="project__top">
+          <div>
+            <h3></h3>
+            <p class="meta"></p>
+          </div>
+          <span class="badge"></span>
+        </div>
+        <div class="project__fields">
+          <label>
+            <span>状态</span>
+            <select class="status-control">
+              <option value="todo">待申请</option>
+              <option value="in-progress">准备中</option>
+              <option value="submitted">已提交</option>
+              <option value="applied">已申请</option>
+            </select>
+          </label>
+          <label>
+            <span>优先级</span>
+            <select class="priority-control">
+              <option value="high">高</option>
+              <option value="medium">中</option>
+              <option value="low">低</option>
+            </select>
+          </label>
+        </div>
+        <label class="note">
+          <span>下一步 / 备注</span>
+          <textarea rows="3" placeholder="材料、推荐信、套磁、截止日期..."></textarea>
+        </label>
+      </article>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
