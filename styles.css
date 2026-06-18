@@ -130,6 +130,15 @@ main {
   gap: 12px;
 }
 
+.add-form {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.35fr) minmax(150px, 1fr) 140px 120px auto;
+  gap: 12px;
+  align-items: end;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
 label {
   display: grid;
   gap: 7px;
@@ -162,6 +171,26 @@ textarea {
   padding: 11px 12px;
   resize: vertical;
   line-height: 1.5;
+}
+
+button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.primary-button {
+  height: 42px;
+  min-width: 78px;
+  border-radius: 7px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.primary-button:hover {
+  background: #1b6258;
 }
 
 input:focus,
@@ -222,17 +251,36 @@ textarea:focus {
   gap: 12px;
 }
 
-.project h3 {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.35;
-  letter-spacing: 0;
+.project__top > div:first-child {
+  min-width: 0;
+  flex: 1;
 }
 
-.meta {
-  margin: 6px 0 0;
+.field-inline {
+  gap: 5px;
+}
+
+.field-inline + .field-inline {
+  margin-top: 10px;
+}
+
+.field-inline input {
+  height: 38px;
+}
+
+.name-control {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.region-control {
   color: var(--muted);
-  font-size: 13px;
+}
+
+.project__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .badge {
@@ -259,6 +307,23 @@ textarea:focus {
 
 .badge.applied {
   background: #50675f;
+}
+
+.icon-button {
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #f2f4f1;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.icon-button:hover {
+  background: #f8e8e7;
+  color: var(--red);
 }
 
 .project__fields {
@@ -302,8 +367,17 @@ textarea:focus {
 
   .stats,
   .controls,
+  .add-form,
   .board {
     grid-template-columns: 1fr;
+  }
+
+  .add-form {
+    align-items: stretch;
+  }
+
+  .primary-button {
+    width: 100%;
   }
 
   .project__fields {

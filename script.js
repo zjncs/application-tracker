@@ -1,23 +1,23 @@
-const projects = [
-  { id: "hetao", name: "河套学院", group: "applied", region: "内地", priority: "medium", note: "跟进结果和补充材料通知。" },
-  { id: "agi", name: "通用人工智能研究院", group: "applied", region: "内地", priority: "high", note: "关注面试/考核安排。" },
-  { id: "iscas", name: "中科院软件所", group: "applied", region: "北京", priority: "high", note: "准备科研经历说明和导师沟通。" },
-  { id: "cuhksz-mair", name: "港中深 MAIR", group: "applied", region: "深圳/香港", priority: "high", note: "检查推荐信和网申状态。" },
-  { id: "westlake", name: "西湖大学", group: "todo", region: "杭州", priority: "high", note: "确认项目方向、导师和截止日期。" },
-  { id: "ict-net", name: "中科院网络", group: "todo", region: "北京", priority: "medium", note: "整理网络/系统相关经历。" },
-  { id: "cas-cyber", name: "中科院网安", group: "todo", region: "北京", priority: "medium", note: "准备安全方向材料版本。" },
-  { id: "ict-cas", name: "中科院计算所", group: "todo", region: "北京", priority: "high", note: "优先确认夏令营/推免批次要求。" },
-  { id: "bupt", name: "北邮", group: "todo", region: "北京", priority: "medium", note: "确认 AI/网安/计算机学院入口。" },
-  { id: "bnu", name: "北师大", group: "todo", region: "北京", priority: "low", note: "筛选匹配导师与方向。" },
-  { id: "buaa", name: "北航", group: "todo", region: "北京", priority: "high", note: "准备成绩排名、科研材料、个人陈述。" },
-  { id: "hkust-gz", name: "港科广", group: "todo", region: "广州", priority: "high", note: "确认 MPhil/PhD/硕士提前批路径。" },
-  { id: "ntu-early", name: "南洋理工提前批", group: "todo", region: "新加坡", priority: "high", note: "准备英文 CV、PS、推荐信。" },
-  { id: "pengcheng", name: "鹏城实验室", group: "todo", region: "深圳", priority: "medium", note: "匹配导师组和实习/科研项目。" },
-  { id: "tele", name: "tele", group: "todo", region: "待确认", priority: "low", note: "补全项目全称、官网、截止日期。" },
-  { id: "qiyuan", name: "启元实验室", group: "todo", region: "北京", priority: "medium", note: "确认开放项目和申请材料。" },
-  { id: "cuhksz-sse", name: "港中深理工学院", group: "todo", region: "深圳/香港", priority: "high", note: "确认是否与 MAIR 材料复用。" },
-  { id: "zgcsvr", name: "中关村暑研", group: "todo", region: "北京", priority: "medium", note: "关注报名窗口和导师方向。" },
-  { id: "zju-uiuc", name: "浙大 UIUC", group: "todo", region: "杭州/国际", priority: "medium", note: "确认项目类型、语言成绩和申请入口。" },
+const defaultProjects = [
+  { id: "hetao", name: "河套学院", status: "applied", region: "内地", priority: "medium", note: "跟进结果和补充材料通知。" },
+  { id: "agi", name: "通用人工智能研究院", status: "applied", region: "内地", priority: "high", note: "关注面试/考核安排。" },
+  { id: "iscas", name: "中科院软件所", status: "applied", region: "北京", priority: "high", note: "准备科研经历说明和导师沟通。" },
+  { id: "cuhksz-mair", name: "港中深 MAIR", status: "applied", region: "深圳/香港", priority: "high", note: "检查推荐信和网申状态。" },
+  { id: "westlake", name: "西湖大学", status: "todo", region: "杭州", priority: "high", note: "确认项目方向、导师和截止日期。" },
+  { id: "ict-net", name: "中科院网络", status: "todo", region: "北京", priority: "medium", note: "整理网络/系统相关经历。" },
+  { id: "cas-cyber", name: "中科院网安", status: "todo", region: "北京", priority: "medium", note: "准备安全方向材料版本。" },
+  { id: "ict-cas", name: "中科院计算所", status: "todo", region: "北京", priority: "high", note: "优先确认夏令营/推免批次要求。" },
+  { id: "bupt", name: "北邮", status: "todo", region: "北京", priority: "medium", note: "确认 AI/网安/计算机学院入口。" },
+  { id: "bnu", name: "北师大", status: "todo", region: "北京", priority: "low", note: "筛选匹配导师与方向。" },
+  { id: "buaa", name: "北航", status: "todo", region: "北京", priority: "high", note: "准备成绩排名、科研材料、个人陈述。" },
+  { id: "hkust-gz", name: "港科广", status: "todo", region: "广州", priority: "high", note: "确认 MPhil/PhD/硕士提前批路径。" },
+  { id: "ntu-early", name: "南洋理工提前批", status: "todo", region: "新加坡", priority: "high", note: "准备英文 CV、PS、推荐信。" },
+  { id: "pengcheng", name: "鹏城实验室", status: "todo", region: "深圳", priority: "medium", note: "匹配导师组和实习/科研项目。" },
+  { id: "tele", name: "tele", status: "todo", region: "待确认", priority: "low", note: "补全项目全称、官网、截止日期。" },
+  { id: "qiyuan", name: "启元实验室", status: "todo", region: "北京", priority: "medium", note: "确认开放项目和申请材料。" },
+  { id: "cuhksz-sse", name: "港中深理工学院", status: "todo", region: "深圳/香港", priority: "high", note: "确认是否与 MAIR 材料复用。" },
+  { id: "zgcsvr", name: "中关村暑研", status: "todo", region: "北京", priority: "medium", note: "关注报名窗口和导师方向。" },
+  { id: "zju-uiuc", name: "浙大 UIUC", status: "todo", region: "杭州/国际", priority: "medium", note: "确认项目类型、语言成绩和申请入口。" },
 ];
 
 const statusLabels = {
@@ -33,7 +33,8 @@ const priorityLabels = {
   low: "低",
 };
 
-const storageKey = "application-tracker-state-v1";
+const storageKey = "application-tracker-projects-v2";
+const legacyStorageKey = "application-tracker-state-v1";
 const template = document.querySelector("#projectTemplate");
 const appliedList = document.querySelector("#appliedList");
 const todoList = document.querySelector("#todoList");
@@ -41,39 +42,72 @@ const stats = document.querySelector("#stats");
 const searchInput = document.querySelector("#searchInput");
 const statusFilter = document.querySelector("#statusFilter");
 const priorityFilter = document.querySelector("#priorityFilter");
+const addProjectForm = document.querySelector("#addProjectForm");
+const newName = document.querySelector("#newName");
+const newRegion = document.querySelector("#newRegion");
+const newStatus = document.querySelector("#newStatus");
+const newPriority = document.querySelector("#newPriority");
 
-let saved = loadSaved();
+let projects = loadProjects();
 
-function loadSaved() {
+function loadProjects() {
+  const savedProjects = readJson(storageKey);
+  if (Array.isArray(savedProjects) && savedProjects.length) {
+    return savedProjects.map(normalizeProject);
+  }
+
+  const legacy = readJson(legacyStorageKey) || {};
+  return defaultProjects.map((project) => normalizeProject({ ...project, ...(legacy[project.id] || {}) }));
+}
+
+function readJson(key) {
   try {
-    return JSON.parse(localStorage.getItem(storageKey)) || {};
+    return JSON.parse(localStorage.getItem(key));
   } catch {
-    return {};
+    return null;
   }
 }
 
-function saveProject(id, patch) {
-  saved[id] = { ...(saved[id] || {}), ...patch };
-  localStorage.setItem(storageKey, JSON.stringify(saved));
+function normalizeProject(project) {
+  return {
+    id: project.id || createId(),
+    name: project.name || "未命名项目",
+    status: statusLabels[project.status] ? project.status : "todo",
+    region: project.region || "待确认",
+    priority: priorityLabels[project.priority] ? project.priority : "medium",
+    note: project.note || "",
+    createdAt: project.createdAt || Date.now(),
+  };
 }
 
-function getProjectState(project) {
-  const userState = saved[project.id] || {};
-  return {
-    ...project,
-    status: userState.status || (project.group === "applied" ? "applied" : "todo"),
-    priority: userState.priority || project.priority,
-    note: userState.note ?? project.note,
-  };
+function saveProjects() {
+  localStorage.setItem(storageKey, JSON.stringify(projects));
+}
+
+function updateProject(id, patch) {
+  projects = projects.map((project) => (project.id === id ? normalizeProject({ ...project, ...patch }) : project));
+  saveProjects();
+}
+
+function deleteProject(id) {
+  projects = projects.filter((project) => project.id !== id);
+  saveProjects();
+  render();
+}
+
+function createId() {
+  if (crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return `project-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function render() {
   const query = searchInput.value.trim().toLowerCase();
   const status = statusFilter.value;
   const priority = priorityFilter.value;
-  const all = projects.map(getProjectState);
 
-  const filtered = all.filter((project) => {
+  const filtered = projects.filter((project) => {
     const haystack = `${project.name} ${project.region} ${project.note}`.toLowerCase();
     const matchesQuery = !query || haystack.includes(query);
     const matchesStatus = status === "all" || project.status === status;
@@ -81,17 +115,24 @@ function render() {
     return matchesQuery && matchesStatus && matchesPriority;
   });
 
-  renderStats(all);
-  renderList(appliedList, filtered.filter((item) => item.group === "applied"));
-  renderList(todoList, filtered.filter((item) => item.group === "todo"));
-  document.querySelector("#appliedCount").textContent = filtered.filter((item) => item.group === "applied").length;
-  document.querySelector("#todoCount").textContent = filtered.filter((item) => item.group === "todo").length;
+  const applied = filtered.filter(isAppliedColumn);
+  const todo = filtered.filter((project) => !isAppliedColumn(project));
+
+  renderStats(projects);
+  renderList(appliedList, applied);
+  renderList(todoList, todo);
+  document.querySelector("#appliedCount").textContent = applied.length;
+  document.querySelector("#todoCount").textContent = todo.length;
+}
+
+function isAppliedColumn(project) {
+  return project.status === "applied" || project.status === "submitted";
 }
 
 function renderStats(all) {
   const counts = {
     total: all.length,
-    applied: all.filter((item) => item.status === "applied" || item.status === "submitted").length,
+    applied: all.filter(isAppliedColumn).length,
     progress: all.filter((item) => item.status === "in-progress").length,
     high: all.filter((item) => item.priority === "high").length,
   };
@@ -123,33 +164,41 @@ function renderList(container, items) {
 
 function createProjectCard(project) {
   const node = template.content.firstElementChild.cloneNode(true);
-  const title = node.querySelector("h3");
-  const meta = node.querySelector(".meta");
+  const nameControl = node.querySelector(".name-control");
+  const regionControl = node.querySelector(".region-control");
   const badge = node.querySelector(".badge");
+  const deleteControl = node.querySelector(".delete-control");
   const statusControl = node.querySelector(".status-control");
   const priorityControl = node.querySelector(".priority-control");
   const note = node.querySelector("textarea");
 
-  title.textContent = project.name;
-  meta.textContent = `${project.region} · 优先级 ${priorityLabels[project.priority]}`;
+  nameControl.value = project.name;
+  regionControl.value = project.region;
   badge.textContent = statusLabels[project.status];
   badge.className = `badge ${badgeClass(project.status)}`;
   statusControl.value = project.status;
   priorityControl.value = project.priority;
   note.value = project.note;
 
+  nameControl.addEventListener("input", () => updateProject(project.id, { name: nameControl.value.trim() || "未命名项目" }));
+  regionControl.addEventListener("input", () => updateProject(project.id, { region: regionControl.value.trim() || "待确认" }));
+
   statusControl.addEventListener("change", () => {
-    saveProject(project.id, { status: statusControl.value });
+    updateProject(project.id, { status: statusControl.value });
     render();
   });
 
   priorityControl.addEventListener("change", () => {
-    saveProject(project.id, { priority: priorityControl.value });
+    updateProject(project.id, { priority: priorityControl.value });
     render();
   });
 
-  note.addEventListener("input", () => {
-    saveProject(project.id, { note: note.value });
+  note.addEventListener("input", () => updateProject(project.id, { note: note.value }));
+
+  deleteControl.addEventListener("click", () => {
+    if (confirm(`删除「${project.name}」？`)) {
+      deleteProject(project.id);
+    }
   });
 
   return node;
@@ -167,6 +216,31 @@ function badgeClass(status) {
     applied: "applied",
   }[status];
 }
+
+addProjectForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const name = newName.value.trim();
+  if (!name) {
+    newName.focus();
+    return;
+  }
+
+  projects.unshift(
+    normalizeProject({
+      id: createId(),
+      name,
+      region: newRegion.value.trim() || "待确认",
+      status: newStatus.value,
+      priority: newPriority.value,
+      note: "",
+      createdAt: Date.now(),
+    }),
+  );
+  saveProjects();
+  addProjectForm.reset();
+  newPriority.value = "medium";
+  render();
+});
 
 [searchInput, statusFilter, priorityFilter].forEach((element) => {
   element.addEventListener("input", render);
