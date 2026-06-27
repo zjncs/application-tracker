@@ -13,7 +13,7 @@
       <div class="hero__content">
         <p class="eyebrow">Graduate Research Applications</p>
         <h1>申请项目进度看板</h1>
-        <p class="hero__text">集中管理已申请、待申请、优先级、截止状态和下一步动作。</p>
+        <p class="hero__text">集中管理待申请、申请结果、优先级、截止日期和下一步动作。</p>
       </div>
     </header>
 
@@ -29,10 +29,11 @@
             <span>状态</span>
             <select id="statusFilter">
               <option value="all">全部</option>
-              <option value="applied">已申请</option>
               <option value="todo">待申请</option>
-              <option value="in-progress">准备中</option>
-              <option value="submitted">已提交</option>
+              <option value="applied">已申请</option>
+              <option value="camp">已入营</option>
+              <option value="rejected">未入营</option>
+              <option value="excellent">已优营</option>
             </select>
           </label>
           <label class="select">
@@ -42,6 +43,16 @@
               <option value="high">高</option>
               <option value="medium">中</option>
               <option value="low">低</option>
+            </select>
+          </label>
+          <label class="select">
+            <span>截止</span>
+            <select id="deadlineFilter">
+              <option value="all">全部</option>
+              <option value="overdue">已过期</option>
+              <option value="7">7 天内</option>
+              <option value="30">30 天内</option>
+              <option value="none">未填写</option>
             </select>
           </label>
         </div>
@@ -58,10 +69,15 @@
             <span>状态</span>
             <select id="newStatus">
               <option value="todo">待申请</option>
-              <option value="in-progress">准备中</option>
-              <option value="submitted">已提交</option>
               <option value="applied">已申请</option>
+              <option value="camp">已入营</option>
+              <option value="rejected">未入营</option>
+              <option value="excellent">已优营</option>
             </select>
+          </label>
+          <label>
+            <span>截止日期</span>
+            <input id="newDeadline" type="date" />
           </label>
           <label>
             <span>优先级</span>
@@ -78,14 +94,14 @@
       <section class="board" aria-label="申请项目列表">
         <div>
           <div class="section-title">
-            <h2>已申请项目</h2>
+            <h2>已申请 / 结果</h2>
             <span id="appliedCount">0</span>
           </div>
           <div class="list" id="appliedList"></div>
         </div>
         <div>
           <div class="section-title">
-            <h2>还可以申请</h2>
+            <h2>待申请</h2>
             <span id="todoCount">0</span>
           </div>
           <div class="list" id="todoList"></div>
@@ -116,10 +132,15 @@
             <span>状态</span>
             <select class="status-control">
               <option value="todo">待申请</option>
-              <option value="in-progress">准备中</option>
-              <option value="submitted">已提交</option>
               <option value="applied">已申请</option>
+              <option value="camp">已入营</option>
+              <option value="rejected">未入营</option>
+              <option value="excellent">已优营</option>
             </select>
+          </label>
+          <label>
+            <span>截止日期</span>
+            <input class="deadline-control" type="date" />
           </label>
           <label>
             <span>优先级</span>
