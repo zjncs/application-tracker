@@ -40,6 +40,7 @@ const priorityLabels = {
 };
 
 const storageKey = "application-tracker-projects-v2";
+const backupStorageKey = "application-tracker-projects-backup";
 const legacyStorageKey = "application-tracker-state-v1";
 const template = document.querySelector("#projectTemplate");
 const appliedList = document.querySelector("#appliedList");
@@ -61,11 +62,36 @@ let projects = loadProjects();
 function loadProjects() {
   const savedProjects = readJson(storageKey);
   if (Array.isArray(savedProjects) && savedProjects.length) {
+    backupRawProjects(savedProjects);
     return savedProjects.map(normalizeProject);
+  }
+
+  const backupProjects = readBackupProjects();
+  if (backupProjects.length) {
+    backupRawProjects(backupProjects);
+    return backupProjects.map(normalizeProject);
   }
 
   const legacy = readJson(legacyStorageKey) || {};
   return defaultProjects.map((project) => normalizeProject({ ...project, ...(legacy[project.id] || {}) }));
+}
+
+function backupRawProjects(rawProjects) {
+  try {
+    const backup = {
+      at: new Date().toISOString(),
+      key: storageKey,
+      projects: rawProjects,
+    };
+    localStorage.setItem(backupStorageKey, JSON.stringify(backup));
+  } catch {
+    // localStorage can be full or disabled; failing to back up should not block loading.
+  }
+}
+
+function readBackupProjects() {
+  const backup = readJson(backupStorageKey);
+  return Array.isArray(backup?.projects) ? backup.projects : [];
 }
 
 function readJson(key) {
@@ -99,6 +125,7 @@ function normalizeDeadline(deadline) {
 }
 
 function saveProjects() {
+  backupRawProjects(projects);
   localStorage.setItem(storageKey, JSON.stringify(projects));
 }
 
