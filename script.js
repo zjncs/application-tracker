@@ -20,6 +20,34 @@ const defaultProjects = [
   { id: "zju-uiuc", name: "浙大 UIUC", status: "todo", region: "杭州/国际", deadline: "", priority: "medium", note: "确认项目类型、语言成绩和申请入口。" },
 ];
 
+const recoveryProjects = [
+  { id: "cuhksz-mair", name: "港中深 MAIR", status: "applied", region: "深圳/香港", deadline: "", priority: "high", note: "入营" },
+  { id: "agi", name: "通用人工智能研究院", status: "applied", region: "内地", deadline: "", priority: "high", note: "关注面试/考核安排。" },
+  { id: "iscas", name: "中科院软件所", status: "applied", region: "北京", deadline: "", priority: "high", note: "入营" },
+  { id: "buaa-management", name: "北航管院", status: "applied", region: "待确认", deadline: "", priority: "medium", note: "材料、推荐信、套磁、截止日期..." },
+  { id: "bit-management", name: "北理工管院", status: "applied", region: "待确认", deadline: "", priority: "medium", note: "材料、推荐信、套磁、截止日期..." },
+  { id: "hkust-gz-phd-summer", name: "港科广直博暑研", status: "applied", region: "待确认", deadline: "", priority: "medium", note: "材料、推荐信、套磁、截止日期..." },
+  { id: "hetao", name: "河套学院", status: "applied", region: "内地", deadline: "", priority: "medium", note: "跟进结果和补充材料通知。" },
+  { id: "nankai-software", name: "南开大学软件学院", status: "applied", region: "待确认", deadline: "", priority: "medium", note: "材料、推荐信、套磁、截止日期..." },
+  { id: "zju-uiuc", name: "浙大 UIUC", status: "applied", region: "杭州/国际", deadline: "", priority: "medium", note: "确认项目类型、语言成绩和申请入口。" },
+  { id: "zgcsvr", name: "中关村暑研", status: "applied", region: "北京", deadline: "", priority: "medium", note: "关注报名窗口和导师方向。" },
+  { id: "ucas-top-2-summer", name: "中国科学院大学“拔尖计划2.0”暑研", status: "applied", region: "待确认", deadline: "", priority: "medium", note: "已经寄掉" },
+  { id: "bnu", name: "北师大", status: "applied", region: "北京", deadline: "", priority: "low", note: "已经寄掉" },
+  { id: "tele", name: "tele", status: "applied", region: "待确认", deadline: "", priority: "low", note: "补全项目全称、官网、截止日期。" },
+  { id: "buaa-cs", name: "北航计算机", status: "todo", region: "北京", deadline: "", priority: "high", note: "准备成绩排名、科研材料、个人陈述。" },
+  { id: "hkust-gz-redbird", name: "港科广红鸟挑战营", status: "todo", region: "广州", deadline: "", priority: "high", note: "确认 MPhil/PhD/硕士提前批路径。" },
+  { id: "cuhksz-sse", name: "港中深理工学院", status: "todo", region: "深圳/香港", deadline: "", priority: "high", note: "确认是否与 MAIR 材料复用。" },
+  { id: "ntu-early", name: "南洋理工提前批", status: "todo", region: "新加坡", deadline: "", priority: "high", note: "准备英文 CV、PS、推荐信。" },
+  { id: "westlake", name: "西湖大学", status: "todo", region: "杭州", deadline: "", priority: "high", note: "确认项目方向、导师和截止日期。" },
+  { id: "ict-cas", name: "中科院计算所", status: "todo", region: "北京", deadline: "", priority: "high", note: "优先确认夏令营/推免批次要求。" },
+  { id: "bupt", name: "北邮", status: "todo", region: "北京", deadline: "", priority: "medium", note: "确认 AI/网安/计算机学院入口。" },
+  { id: "pengcheng", name: "鹏城实验室", status: "todo", region: "深圳", deadline: "", priority: "medium", note: "匹配导师组和实习/科研项目。" },
+  { id: "qiyuan", name: "启元实验室", status: "todo", region: "北京", deadline: "", priority: "medium", note: "确认开放项目和申请材料。" },
+  { id: "tju-innovation-master", name: "天津大学科创硕士", status: "todo", region: "待确认", deadline: "", priority: "medium", note: "材料、推荐信、套磁、截止日期..." },
+  { id: "cas-cyber", name: "中科院网安", status: "todo", region: "北京", deadline: "", priority: "medium", note: "准备安全方向材料版本。" },
+  { id: "ict-net", name: "中科院网络", status: "todo", region: "北京", deadline: "", priority: "medium", note: "整理网络/系统相关经历。" },
+];
+
 const statusLabels = {
   todo: "待申请",
   applied: "已申请",
@@ -41,6 +69,7 @@ const priorityLabels = {
 
 const storageKey = "application-tracker-projects-v2";
 const backupStorageKey = "application-tracker-projects-backup";
+const recoveryMarkerKey = "application-tracker-recovered-from-pasted-v1";
 const legacyStorageKey = "application-tracker-state-v1";
 const template = document.querySelector("#projectTemplate");
 const appliedList = document.querySelector("#appliedList");
@@ -63,17 +92,55 @@ function loadProjects() {
   const savedProjects = readJson(storageKey);
   if (Array.isArray(savedProjects) && savedProjects.length) {
     backupRawProjects(savedProjects);
-    return savedProjects.map(normalizeProject);
+    if (localStorage.getItem(recoveryMarkerKey)) {
+      return savedProjects.map(normalizeProject);
+    }
+    return restorePastedProjects(savedProjects);
   }
 
   const backupProjects = readBackupProjects();
   if (backupProjects.length) {
     backupRawProjects(backupProjects);
-    return backupProjects.map(normalizeProject);
+    return restorePastedProjects(backupProjects);
   }
 
+  return restorePastedProjects(migrateLegacyDefaults());
+}
+
+function restorePastedProjects(sourceProjects) {
+  const restored = mergeRecoveryProjects(sourceProjects);
+  persistProjects(restored);
+  localStorage.setItem(recoveryMarkerKey, new Date().toISOString());
+  return restored;
+}
+
+function migrateLegacyDefaults() {
   const legacy = readJson(legacyStorageKey) || {};
   return defaultProjects.map((project) => normalizeProject({ ...project, ...(legacy[project.id] || {}) }));
+}
+
+function mergeRecoveryProjects(sourceProjects) {
+  const merged = [];
+  const seenNames = new Set();
+  const obsoleteNames = new Set(["北航", "港科广"]);
+
+  recoveryProjects.map(normalizeProject).forEach((project) => {
+    const key = project.name.trim();
+    if (!seenNames.has(key)) {
+      merged.push(project);
+      seenNames.add(key);
+    }
+  });
+
+  sourceProjects.map(normalizeProject).forEach((project) => {
+    const key = project.name.trim();
+    if (!seenNames.has(key) && !obsoleteNames.has(key)) {
+      merged.push(project);
+      seenNames.add(key);
+    }
+  });
+
+  return merged;
 }
 
 function backupRawProjects(rawProjects) {
@@ -126,7 +193,11 @@ function normalizeDeadline(deadline) {
 
 function saveProjects() {
   backupRawProjects(projects);
-  localStorage.setItem(storageKey, JSON.stringify(projects));
+  persistProjects(projects);
+}
+
+function persistProjects(nextProjects) {
+  localStorage.setItem(storageKey, JSON.stringify(nextProjects));
 }
 
 function updateProject(id, patch) {
